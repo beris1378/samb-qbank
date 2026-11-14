@@ -267,6 +267,19 @@ main.home{max-width:1180px;padding:16px 18px 16px}
 .chip:hover{background:var(--sel)}.chip[aria-pressed=true]:hover{background:var(--accent)}
 .quick button:hover:not(:disabled){background:var(--sel)}
 header :focus-visible{outline-color:var(--head-ink)}
+@media (max-width:640px){
+  .bar{gap:4px 12px;padding:8px 12px 0}
+  .brand{order:1;font-size:15px}
+  #clock{order:2;margin-left:auto}
+  #status{order:3}
+  #clock:empty+#status{margin-left:auto}
+  #status>span{display:none}
+  #status i{margin-right:0;width:9px;height:9px}
+  nav{order:4;flex:1 0 100%;flex-wrap:nowrap;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -12px;padding:2px 6px 6px}
+  nav::-webkit-scrollbar{display:none}
+  nav button{white-space:nowrap;padding:7px 6px;flex:0 0 auto;font-size:13px}
+  .ctx .in{padding:6px 12px;gap:2px 14px}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -275,7 +288,7 @@ header :focus-visible{outline-color:var(--head-ink)}
   <button class="brand" id="brand">IM Question Bank</button>
   <nav id="nav"></nav>
   <span class="status" id="clock"></span>
-  <span class="status local" id="status"><i></i><span>Saved on this device</span></span>
+  <span class="status local" id="status" title="Saved on this device"><i></i><span>Saved on this device</span></span>
 </div></header>
 <div class="ctx"><div class="in" id="ctx"></div></div>
 <main id="app"></main>
@@ -329,7 +342,7 @@ function loadLocal(){
 }
 function saveLocal(n){ try { localStorage.setItem(LS+n, JSON.stringify(mem[n])); } catch(e){} }
 var refs = null, writing = {}, dirty = {}, timers = {}, remoteState = "local";
-function setStatus(kind, text){ remoteState = kind; statusEl.className = "status "+kind; statusEl.lastChild.textContent = text; }
+function setStatus(kind, text){ remoteState = kind; statusEl.className = "status "+kind; statusEl.lastChild.textContent = text; statusEl.title = text; }
 function touch(n){
   mem[n].t = Date.now(); saveLocal(n);
   if (!refs) return;
